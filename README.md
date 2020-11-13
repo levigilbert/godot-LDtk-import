@@ -1,6 +1,7 @@
 # godot-LDtk-import
 - Godot version: 3.2.3
 - LDtk version: 0.5.2
+
 Basic GDscript for importing LDtk files into the Godot game engine.
 
 This project is just a starting point.  Please feel free to use parts for your own projects or to get you started with using LDtk with Godot.
