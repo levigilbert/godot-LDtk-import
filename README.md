@@ -6,9 +6,9 @@ Basic GDscript for importing LDtk files into the Godot game engine.
 
 This project is just a starting point.  Please feel free to use parts for your own projects or to get you started with using LDtk with Godot.
 
--[LDtk Website](https://deepnight.net/tools/ldtk-2d-level-editor/)
--[LDtk Docs](https://deepnight.net/docs/ldtk/)
--[LDtk JSON Format](https://github.com/deepnight/ldtk/blob/master/JSON_DOC.md)
+- [LDtk Website](https://deepnight.net/tools/ldtk-2d-level-editor/)
+- [LDtk Docs](https://deepnight.net/docs/ldtk/)
+- [LDtk JSON Format](https://github.com/deepnight/ldtk/blob/master/JSON_DOC.md)
 
 ## 11/13/2020:
 -Added basic functionality for autolayers and intgrid layers.
