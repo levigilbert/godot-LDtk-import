@@ -12,6 +12,8 @@ This project is just a starting point.  Please feel free to use parts for your o
 
 ## 11/13/2020:
 -Added basic functionality for autolayers and intgrid layers.
+
+Can now create tilemaps from autolayers and intgrid layers with tilesets.  Intgrid layers without tilesets are ignored currently.
 ## 11/12/2020:
 - Currently this script has very basic functionality.  Only Tile Layers are currently working.
 
