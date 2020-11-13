@@ -25,7 +25,7 @@ Check out the [LDtk JSON documentation](https://github.com/deepnight/ldtk/blob/m
 
 Basic data structure is composed of Levels that have Layers(layerInstances).  In the example map(testmap.ldtk) there is a level called "level01" and it has a tile layer called "Ground".
 
-To create a new tilemap for the "Ground" tile layer from the example testmap.ldtk:
+To create a new tilemap for the "Ground" tile layer:
 - `var tilemap_data = LDtk.map_data.levels[0].layerInstances[0]`
 - `var new_tilemap = LDtk.new_tilemap(tilemap_data)`
 
