@@ -10,11 +10,12 @@ This project is just a starting point.  Please feel free to use parts for your o
 - [LDtk Docs](https://deepnight.net/docs/ldtk/)
 - [LDtk JSON Format](https://github.com/deepnight/ldtk/blob/master/JSON_DOC.md)
 
-## 11/13/2020:
+## Updates:
+### 11/13/2020:
 -Added basic functionality for autolayers and intgrid layers.
 
 Can now create tilemaps from autolayers and intgrid layers with tilesets.  Intgrid layers without tilesets are ignored currently.
-## 11/12/2020:
+### 11/12/2020:
 - Currently this script has very basic functionality.  Only Tile Layers are currently working.
 
 ## To-do:
