@@ -11,10 +11,10 @@ Basic GDscript for importing LDtk files into the Godot game engine.
 
 ## Updates:
 ### 11/22/2020:
--The Importer is now an addon/plugin.
--added basic import options for Entities.
+- The Importer is now an addon/plugin.
+- added basic import options for Entities.
 ### 11/13/2020:
--Added basic functionality for autolayers and intgrid layers.
+- Added basic functionality for autolayers and intgrid layers.
 
 Can now create tilemaps from autolayers and intgrid layers with tilesets.  Intgrid layers without tilesets are ignored currently.
 ### 11/12/2020:
@@ -26,8 +26,8 @@ Can now create tilemaps from autolayers and intgrid layers with tilesets.  Intgr
 3. Add a .ldtk map file or use the example testmap.ldtk, the map will be imported as a .tscn file
 
 ## Tips:
--IntGrid, Tiles, and AutoLayers are imported as TileMap Nodes.
--Currently Entities have very basic functionality, checkout the testmap.ldtk for examples.
+- IntGrid, Tiles, and AutoLayers are imported as TileMap Nodes.
+- Currently Entities have very basic functionality, checkout the testmap.ldtk for examples.
 
 ### Entities:
 You can set up how your entities are imported:
@@ -35,11 +35,11 @@ You can set up how your entities are imported:
 2. Set the Field Identifier to: `NodeType`
 3. Set the Default Value to the type of Node
 Current node options are:
--Position2D
--Area2D
--KinematicBody2D
--RigidBody2D
--StaticBody2D
+- Position2D
+- Area2D
+- KinematicBody2D
+- RigidBody2D
+- StaticBody2D
 
 ## Notes:
 - The example is using the tileset that comes with LDtk: `Cavernas_by_Adam_Saltsman.png`
