@@ -1,3 +1,4 @@
+tool
 extends Reference
 
 
@@ -20,10 +21,69 @@ func load_LDtk_file(filepath):
 	return json
 
 
-#create new tilemap from tilemap_data.  Currently only works for Tile layers.
+#get layer entities
+func get_layer_entities(layer):
+	if layer.__type != 'Entities':
+		return
+
+	var entities = []
+	for entity in layer.entityInstances:
+		var new_entity = new_entity(entity)
+		entities.append(new_entity)
+
+	return entities
+
+
+#create new entity
+func new_entity(entity_data):
+	var new_entity
+	if entity_data.fieldInstances:
+		for field in entity_data.fieldInstances:
+			if field.__identifier == 'NodeType' and field.__type == 'String':
+				match field.__value:
+					'Position2D':
+						new_entity = Position2D.new()
+					'Area2D':
+						new_entity = Area2D.new()
+					'KinematicBody2D':
+						new_entity = KinematicBody2D.new()
+					'RigidBody2D':
+						new_entity = RigidBody2D.new()
+					'StaticBody2D':
+						new_entity = StaticBody2D.new()
+	else:
+		return
+
+	match new_entity.get_class():
+		'Area2D', 'KinematicBody2D', 'RigidBody2D', 'StaticBody2D':
+			var col_shape = new_rectangle_collision_shape(get_entity_size(entity_data.__identifier))
+			new_entity.add_child(col_shape)
+
+	new_entity.name = entity_data.__identifier
+	new_entity.position = Vector2(entity_data.px[0], entity_data.px[1])
+
+	return new_entity
+
+
+#create new RectangleShape2D
+func new_rectangle_collision_shape(size):
+	var col_shape = CollisionShape2D.new()
+	col_shape.shape = RectangleShape2D.new()
+	col_shape.shape.extents = size / 2
+	col_shape.position = size / 2
+
+	return col_shape
+
+
+func get_entity_size(entity_identifier):
+	for entity in map_data.defs.entities:
+		if entity.identifier == entity_identifier:
+			return Vector2(entity.width, entity.height)
+
+
+#create new TileMap from tilemap_data.
 func new_tilemap(tilemap_data):
 	if tilemap_data.__type == 'IntGrid' and get_layer_tileset_data(tilemap_data.layerDefUid) == null:
-		print('intgrid null')
 		return
 
 	var tilemap = TileMap.new()
@@ -53,11 +113,19 @@ func new_tileset(tileset_data):
 	var texture_filepath = 'res://' + tileset_data.relPath
 	var texture = load(texture_filepath)
 
-	for tileId in tileset_data.opaqueTiles:
-		tileset.create_tile(tileId)
-		tileset.tile_set_tile_mode(tileId, TileSet.SINGLE_TILE)
-		tileset.tile_set_texture(tileId, texture)
-		tileset.tile_set_region(tileId, get_tile_region(tileId, tileset_data))
+	var texture_image = texture.get_data()
+
+	var gridWidth = (tileset_data.pxWid - tileset_data.padding) / (tileset_data.tileGridSize + tileset_data.spacing)
+	var gridHeight = (tileset_data.pxHei - tileset_data.padding) / (tileset_data.tileGridSize + tileset_data.spacing)
+	var gridSize = gridWidth * gridHeight
+
+	for tileId in range(0, gridSize):
+		var tile_image = texture_image.get_rect(get_tile_region(tileId, tileset_data))
+		if not tile_image.is_invisible():
+			tileset.create_tile(tileId)
+			tileset.tile_set_tile_mode(tileId, TileSet.SINGLE_TILE)
+			tileset.tile_set_texture(tileId, texture)
+			tileset.tile_set_region(tileId, get_tile_region(tileId, tileset_data))
 
 	return tileset
 

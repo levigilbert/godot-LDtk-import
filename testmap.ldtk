@@ -11,7 +11,7 @@
 	"defaultPivotY": 0,
 	"defaultGridSize": 8,
 	"bgColor": "#7F8093",
-	"nextUid": 16,
+	"nextUid": 27,
 	"minifyJson": false,
 	"exportTiled": false,
 	"defs": {
@@ -170,9 +170,170 @@
 				"tilesetDefUid": null,
 				"tilePivotX": 0,
 				"tilePivotY": 0
+			},
+			{
+				"__type": "Entities",
+				"identifier": "Entities",
+				"type": "Entities",
+				"uid": 16,
+				"gridSize": 8,
+				"displayOpacity": 1,
+				"pxOffsetX": 0,
+				"pxOffsetY": 0,
+				"intGridValues": [{ "identifier": null, "color": "#000000" }],
+				"autoTilesetDefUid": null,
+				"autoRuleGroups": [],
+				"autoSourceLayerDefUid": null,
+				"tilesetDefUid": null,
+				"tilePivotX": 0,
+				"tilePivotY": 0
 			}
 		],
-		"entities": [],
+		"entities": [
+			{
+				"identifier": "Player",
+				"uid": 17,
+				"width": 16,
+				"height": 16,
+				"color": "#94D9B3",
+				"renderMode": "Rectangle",
+				"showName": true,
+				"tilesetId": null,
+				"tileId": null,
+				"tileRenderMode": "Stretch",
+				"maxPerLevel": 1,
+				"limitBehavior": "DiscardOldOnes",
+				"pivotX": 0,
+				"pivotY": 0,
+				"fieldDefs": [
+					{
+						"identifier": "NodeType",
+						"__type": "String",
+						"uid": 20,
+						"type": "F_String",
+						"isArray": false,
+						"canBeNull": true,
+						"arrayMinLength": null,
+						"arrayMaxLength": null,
+						"editorDisplayMode": "Hidden",
+						"editorDisplayPos": "Above",
+						"editorAlwaysShow": false,
+						"min": null,
+						"max": null,
+						"defaultOverride": {
+							"id": "V_String",
+							"params": ["KinematicBody2D"]
+						}
+					},
+					{
+						"identifier": "Health",
+						"__type": "Int",
+						"uid": 21,
+						"type": "F_Int",
+						"isArray": false,
+						"canBeNull": false,
+						"arrayMinLength": null,
+						"arrayMaxLength": null,
+						"editorDisplayMode": "Hidden",
+						"editorDisplayPos": "Above",
+						"editorAlwaysShow": false,
+						"min": 0,
+						"max": 10,
+						"defaultOverride": { "id": "V_Int", "params": [10] }
+					}
+				]
+			},
+			{
+				"identifier": "Enemy",
+				"uid": 18,
+				"width": 16,
+				"height": 16,
+				"color": "#F87575",
+				"renderMode": "Rectangle",
+				"showName": true,
+				"tilesetId": null,
+				"tileId": null,
+				"tileRenderMode": "Stretch",
+				"maxPerLevel": 0,
+				"limitBehavior": "DiscardOldOnes",
+				"pivotX": 0,
+				"pivotY": 0,
+				"fieldDefs": [
+					{
+						"identifier": "NodeType",
+						"__type": "String",
+						"uid": 19,
+						"type": "F_String",
+						"isArray": false,
+						"canBeNull": true,
+						"arrayMinLength": null,
+						"arrayMaxLength": null,
+						"editorDisplayMode": "Hidden",
+						"editorDisplayPos": "Above",
+						"editorAlwaysShow": false,
+						"min": null,
+						"max": null,
+						"defaultOverride": {
+							"id": "V_String",
+							"params": ["KinematicBody2D"]
+						}
+					},
+					{
+						"identifier": "Health",
+						"__type": "Int",
+						"uid": 22,
+						"type": "F_Int",
+						"isArray": false,
+						"canBeNull": false,
+						"arrayMinLength": null,
+						"arrayMaxLength": null,
+						"editorDisplayMode": "Hidden",
+						"editorDisplayPos": "Above",
+						"editorAlwaysShow": false,
+						"min": 0,
+						"max": 3,
+						"defaultOverride": { "id": "V_Int", "params": [3] }
+					}
+				]
+			},
+			{
+				"identifier": "Area",
+				"uid": 24,
+				"width": 240,
+				"height": 32,
+				"color": "#4335A9",
+				"renderMode": "Rectangle",
+				"showName": true,
+				"tilesetId": null,
+				"tileId": null,
+				"tileRenderMode": "Stretch",
+				"maxPerLevel": 0,
+				"limitBehavior": "DiscardOldOnes",
+				"pivotX": 0,
+				"pivotY": 0,
+				"fieldDefs": [
+					{
+						"identifier": "NodeType",
+						"__type": "String",
+						"uid": 25,
+						"type": "F_String",
+						"isArray": false,
+						"canBeNull": true,
+						"arrayMinLength": null,
+						"arrayMaxLength": null,
+						"editorDisplayMode": "Hidden",
+						"editorDisplayPos": "Above",
+						"editorAlwaysShow": false,
+						"min": null,
+						"max": null,
+						"defaultOverride": {
+							"id": "V_String",
+							"params": ["Area2D"]
+						}
+					}
+				]
+			}
+		],
 		"tilesets": [
 			{
 				"identifier": "Cavernas_by_Adam_Saltsman",
@@ -403,6 +564,10 @@
 				"autoLayerTiles": [],
 				"seed": 8349455,
 				"gridTiles": [
+					{ "px": [40,32], "src": [80,48], "f": 0, "d": [133,82] },
+					{ "px": [48,32], "src": [80,48], "f": 0, "d": [134,82] },
+					{ "px": [40,40], "src": [80,48], "f": 0, "d": [165,82] },
+					{ "px": [48,40], "src": [72,40], "f": 0, "d": [166,69] },
 					{ "px": [0,48], "src": [0,8], "f": 0, "d": [192,12] },
 					{ "px": [8,48], "src": [8,8], "f": 0, "d": [193,13] },
 					{ "px": [16,48], "src": [0,8], "f": 0, "d": [194,12] },
@@ -961,6 +1126,43 @@
 				"seed": 6000827,
 				"gridTiles": [],
 				"entityInstances": []
+			},
+			{
+				"__identifier": "Entities",
+				"__type": "Entities",
+				"__cWid": 32,
+				"__cHei": 32,
+				"__gridSize": 8,
+				"__opacity": 1,
+				"__pxTotalOffsetX": 0,
+				"__pxTotalOffsetY": 0,
+				"levelId": 0,
+				"layerDefUid": 16,
+				"pxOffsetX": 0,
+				"pxOffsetY": 0,
+				"intGrid": [],
+				"autoLayerTiles": [],
+				"seed": 7982792,
+				"gridTiles": [],
+				"entityInstances": [
+					{ "__identifier": "Enemy", "__grid": [15,3], "__tile": null, "defUid": 18, "px": [120,24], "fieldInstances": [
+						{ "__identifier": "NodeType", "__value": "KinematicBody2D", "__type": "String", "defUid": 19, "realEditorValues": [] },
+						{ "__identifier": "Health", "__value": 3, "__type": "Int", "defUid": 22, "realEditorValues": [] }
+					] },
+					{ "__identifier": "Enemy", "__grid": [22,3], "__tile": null, "defUid": 18, "px": [176,24], "fieldInstances": [
+						{ "__identifier": "NodeType", "__value": "KinematicBody2D", "__type": "String", "defUid": 19, "realEditorValues": [] },
+						{ "__identifier": "Health", "__value": 3, "__type": "Int", "defUid": 22, "realEditorValues": [] }
+					] },
+					{ "__identifier": "Enemy", "__grid": [28,3], "__tile": null, "defUid": 18, "px": [224,24], "fieldInstances": [
+						{ "__identifier": "NodeType", "__value": "KinematicBody2D", "__type": "String", "defUid": 19, "realEditorValues": [] },
+						{ "__identifier": "Health", "__value": 3, "__type": "Int", "defUid": 22, "realEditorValues": [] }
+					] },
+					{ "__identifier": "Player", "__grid": [1,3], "__tile": null, "defUid": 17, "px": [8,24], "fieldInstances": [
+						{ "__identifier": "NodeType", "__value": "KinematicBody2D", "__type": "String", "defUid": 20, "realEditorValues": [] },
+						{ "__identifier": "Health", "__value": 10, "__type": "Int", "defUid": 21, "realEditorValues": [] }
+					] },
+					{ "__identifier": "Area", "__grid": [1,24], "__tile": null, "defUid": 24, "px": [8,192], "fieldInstances": [{ "__identifier": "NodeType", "__value": "Area2D", "__type": "String", "defUid": 25, "realEditorValues": [] }] }
+				]
 			}
 		]
 	}]
