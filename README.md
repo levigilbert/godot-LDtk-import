@@ -11,6 +11,9 @@ This project is just a starting point.  Please feel free to use parts for your o
 - [LDtk JSON Format](https://github.com/deepnight/ldtk/blob/master/JSON_DOC.md)
 
 ## Updates:
+### 11/22/2020:
+-The Importer is now an addon/plugin.
+-added basic import options for Entities.
 ### 11/13/2020:
 -Added basic functionality for autolayers and intgrid layers.
 
@@ -18,28 +21,26 @@ Can now create tilemaps from autolayers and intgrid layers with tilesets.  Intgr
 ### 11/12/2020:
 - Currently this script has very basic functionality.  Only Tile Layers are currently working.
 
-## To-do:
-- Entities
-
 ## How to use:
-Take a look at main.gd for an example.  Also LDtk.gd has lots of comments and is fairly readable.
-
-1. Create a new gdscript.
-2. Add the LDtk script: `onready var LDtk = load("res://scripts/LDtk.gd")`
-3. Load map data: `LDtk.map_data = "filepath"`
-
-Check out the [LDtk JSON documentation](https://github.com/deepnight/ldtk/blob/master/JSON_DOC.md) for a better understanding of the file data structure.
-
-Basic data structure is composed of Levels that have Layers(layerInstances).  In the example map(testmap.ldtk) there is a level called "level01" and it has a tile layer called "Ground".
-
-To create a new tilemap for the "Ground" tile layer:
-- `var tilemap_data = LDtk.map_data.levels[0].layerInstances[0]`
-- `var new_tilemap = LDtk.new_tilemap(tilemap_data)`
+1. Copy the addons folder to your godot project folder.
+2. Enable LDtk Importer under Project Settings/Plugins.
+3. Add a .ldtk map file or use the example testmap.ldtk, the map will be imported as a .tscn file
 
 ## Tips:
-- load map: `LDtk.map_data = "filepath"`
-- levels(Array) are located at: `LDtk.map_data.levels`
-- layers(Array) within each level are called: `layerInstances`
+-IntGrid, Tiles, and AutoLayers are imported as TileMap Nodes.
+-Currently Entities have very basic functionality, checkout the testmap.ldtk for examples.
+
+### Entities:
+You can set up how your entities are imported:
+1. Add a String Field Type
+2. Set the Field Identifier to: `NodeType`
+3. Set the Default Value to the type of Node
+Current node options are:
+-Position2D
+-Area2D
+-KinematicBody2D
+-RigidBody2D
+-StaticBody2D
 
 ## Notes:
 - The example is using the tileset that comes with LDtk: `Cavernas_by_Adam_Saltsman.png`
