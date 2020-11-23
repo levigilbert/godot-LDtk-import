@@ -35,6 +35,7 @@ You can set up how your entities are imported:
 2. Add a String Field Type
 3. Set the Field Identifier to: `NodeType`
 4. Set the Default Value to the type of Node
+
 Current node options are:
 - Position2D
 - Area2D
