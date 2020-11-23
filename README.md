@@ -31,9 +31,10 @@ Can now create tilemaps from autolayers and intgrid layers with tilesets.  Intgr
 
 ### Entities:
 You can set up how your entities are imported:
-1. Add a String Field Type
-2. Set the Field Identifier to: `NodeType`
-3. Set the Default Value to the type of Node
+1. Create a new Entity
+2. Add a String Field Type
+3. Set the Field Identifier to: `NodeType`
+4. Set the Default Value to the type of Node
 Current node options are:
 - Position2D
 - Area2D
