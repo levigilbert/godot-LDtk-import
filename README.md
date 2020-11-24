@@ -10,6 +10,8 @@ Basic GDscript for importing LDtk files into the Godot game engine.
 - [LDtk JSON Format](https://github.com/deepnight/ldtk/blob/master/JSON_DOC.md)
 
 ## Updates:
+### 11/24/2020:
+- removed import files
 ### 11/22/2020:
 - The Importer is now an addon/plugin.
 - added basic import options for Entities.
