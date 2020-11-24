@@ -4,7 +4,7 @@ extends "res://addons/gut/test.gd"
 class TestLoadMapData:
 	extends "res://addons/gut/test.gd"
 
-	var LDtk = load("res://scripts/LDtk.gd").new()
+	var LDtk = load("res://addons/LDtk-Importer/LDtk.gd").new()
 
 
 	func test_load_map_data():
@@ -17,7 +17,7 @@ class TestLoadMapData:
 class TestConversions:
 	extends "res://addons/gut/test.gd"
 
-	var LDtk = load("res://scripts/LDtk.gd").new()
+	var LDtk = load("res://addons/LDtk-Importer/LDtk.gd").new()
 
 
 	func test_coordId_to_gridCoords():
@@ -64,7 +64,7 @@ class TestConversions:
 class TestTileSet:
 	extends "res://addons/gut/test.gd"
 
-	var LDtk = load("res://scripts/LDtk.gd").new()
+	var LDtk = load("res://addons/LDtk-Importer/LDtk.gd").new()
 
 
 	func test_get_tile_region():
@@ -89,15 +89,15 @@ class TestTileSet:
 		var tileset_data = LDtk.map_data.defs.tilesets[0]
 		var tileset = LDtk.new_tileset(tileset_data)
 
-		var tile_array = tileset_data.opaqueTiles
+		var tile_count = 205
 		var tilset_tile_array = tileset.get_tiles_ids()
-		assert_eq(tilset_tile_array.size(), tile_array.size())
+		assert_eq(tilset_tile_array.size(), tile_count)
 
 
 class TestLayerTypes:
 	extends "res://addons/gut/test.gd"
 
-	var LDtk = load("res://scripts/LDtk.gd").new()
+	var LDtk = load("res://addons/LDtk-Importer/LDtk.gd").new()
 
 	func test_tiles_layer():
 		LDtk.map_data = 'res://testmap.ldtk'
