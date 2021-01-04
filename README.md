@@ -28,7 +28,7 @@ Can now create tilemaps from autolayers and intgrid layers with tilesets.  Intgr
 ## How to use:
 1. Copy the addons folder to your godot project folder.
 2. Enable LDtk Importer under Project Settings/Plugins.
-3. Add a .ldtk map file or use the example testmap.ldtk, the map will be imported as a .tscn file
+3. Add a .ldtk map file and any spritesheets you're using to your project folder.
 
 ## Tips:
 - IntGrid, Tiles, and AutoLayers are imported as TileMap Nodes.
