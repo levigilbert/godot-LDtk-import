@@ -2,6 +2,7 @@ tool
 extends EditorImportPlugin
 
 
+enum { PRESET_DEFAULT }
 var LDtk = preload("LDtk.gd").new()
 
 
@@ -10,7 +11,19 @@ func get_importer_name():
 
 
 func get_visible_name():
-	return "LDtk Importer"
+	return "LDtk Scene"
+
+
+func get_priority():
+	return 1
+
+
+func get_import_order():
+	return 100
+
+
+func get_resource_type():
+	return "PackedScene"
 
 
 func get_recognized_extensions():
@@ -18,7 +31,7 @@ func get_recognized_extensions():
 
 
 func get_save_extension():
-	return "scn"
+	return "tscn"
 
 
 func get_preset_count():
@@ -26,7 +39,12 @@ func get_preset_count():
 
 
 func get_preset_name(preset):
-	return "Default"
+	match preset:
+		PRESET_DEFAULT: return "Default"
+
+
+func get_import_options(preset):
+	return
 
 
 func import(source_file, save_path, options, platform_v, r_gen_files):
@@ -57,7 +75,7 @@ func import(source_file, save_path, options, platform_v, r_gen_files):
 	var packed_scene = PackedScene.new()
 	packed_scene.pack(map)
 
-	return ResourceSaver.save("testmap.tscn", packed_scene)
+	return ResourceSaver.save("%s.%s" % [save_path, get_save_extension()], packed_scene)
 
 
 #create layers in level

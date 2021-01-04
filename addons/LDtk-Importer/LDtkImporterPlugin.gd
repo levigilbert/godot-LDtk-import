@@ -5,7 +5,7 @@ extends EditorPlugin
 var import_plugin = null
 
 
-func get_name():
+func get_plugin_name():
 	return "LDtk Importer"
 
 
