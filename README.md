@@ -10,11 +10,14 @@ Basic GDscript for importing LDtk files into the Godot game engine.
 - [LDtk JSON Format](https://github.com/deepnight/ldtk/blob/master/JSON_DOC.md)
 
 ## Updates:
+### 1/4/2021:
+- Updated for new version of LDtk.
+- Changed import style: instead of making a new scene you can just open the ldtk file.
 ### 11/24/2020:
-- removed import files
+- removed import files.
 ### 11/22/2020:
 - The Importer is now an addon/plugin.
-- added basic import options for Entities.
+- Added basic import options for Entities.
 ### 11/13/2020:
 - Added basic functionality for autolayers and intgrid layers.
 
