@@ -97,14 +97,32 @@ func new_tilemap(tilemap_data):
 	match tilemap_data.__type:
 		'Tiles':
 			for tile in tilemap_data.gridTiles:
+				var xflip = false
+				var yflip = false
+				if tile.f == 3:
+					xflip = true
+					yflip = true
+				elif tile.f == 2:
+					yflip = true
+				elif tile.f == 1:
+					xflip = true
 				var grid_coords = coordId_to_gridCoords(tile.d[0], tilemap_data.__cWid)
-#				tilemap.set_cellv(grid_coords, tile.d[0])
-				tilemap.set_cellv(grid_coords, tile.t)
+#				tilemap.set_cellv(grid_coords, tile.d[0], xflip, yflip)
+				tilemap.set_cellv(grid_coords, tile.t, xflip, yflip)
 		'IntGrid', 'AutoLayer':
 			for tile in tilemap_data.autoLayerTiles:
+				var xflip = false
+				var yflip = false
+				if tile.f == 3:
+					xflip = true
+					yflip = true
+				elif tile.f == 2:
+					yflip = true
+				elif tile.f == 1:
+					xflip = true
 				var grid_coords = coordId_to_gridCoords(tile.d[1], tilemap_data.__cWid)
-				tilemap.set_cellv(grid_coords, tile.d[1])
-				tilemap.set_cellv(grid_coords, tile.t)
+				tilemap.set_cellv(grid_coords, tile.d[1], xflip, yflip)
+				tilemap.set_cellv(grid_coords, tile.t, xflip, yflip)
 
 
 	return tilemap
