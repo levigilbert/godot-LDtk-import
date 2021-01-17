@@ -97,14 +97,20 @@ func new_tilemap(tilemap_data):
 	match tilemap_data.__type:
 		'Tiles':
 			for tile in tilemap_data.gridTiles:
+				var flip = int(tile["f"])
+				var flipX = bool(flip & 1)
+				var flipY = bool(flip & 2)
 				var grid_coords = coordId_to_gridCoords(tile.d[0], tilemap_data.__cWid)
-#				tilemap.set_cellv(grid_coords, tile.d[0])
-				tilemap.set_cellv(grid_coords, tile.t)
+#				tilemap.set_cellv(grid_coords, tile.d[0], flipX, flipY)
+				tilemap.set_cellv(grid_coords, tile.t, flipX, flipY)
 		'IntGrid', 'AutoLayer':
 			for tile in tilemap_data.autoLayerTiles:
+				var flip = int(tile["f"])
+				var flipX = bool(flip & 1)
+				var flipY = bool(flip & 2)
 				var grid_coords = coordId_to_gridCoords(tile.d[1], tilemap_data.__cWid)
-				tilemap.set_cellv(grid_coords, tile.d[1])
-				tilemap.set_cellv(grid_coords, tile.t)
+				tilemap.set_cellv(grid_coords, tile.d[1], flipX, flipY)
+				tilemap.set_cellv(grid_coords, tile.t, flipX, flipY)
 
 
 	return tilemap
