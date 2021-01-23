@@ -18,6 +18,8 @@ func load_LDtk_file(filepath):
 	var json = JSON.parse(json_file.get_as_text()).result
 	json_file.close()
 
+	json['base_dir'] = filepath.get_base_dir()
+
 	return json
 
 
@@ -119,7 +121,7 @@ func new_tilemap(tilemap_data):
 #create new tileset from tileset_data.
 func new_tileset(tileset_data):
 	var tileset = TileSet.new()
-	var texture_filepath = 'res://' + tileset_data.relPath
+	var texture_filepath = map_data.base_dir + '/' + tileset_data.relPath
 	var texture = load(texture_filepath)
 
 	var texture_image = texture.get_data()
