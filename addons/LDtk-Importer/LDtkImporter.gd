@@ -92,7 +92,7 @@ func get_level_layerInstances(level):
 
 				layers.append(new_node)
 			'Tiles', 'IntGrid', 'AutoLayer':
-				var new_layer = LDtk.new_tilemap(layerInstance)
+				var new_layer = LDtk.new_tilemap(layerInstance, level)
 				if new_layer:
 					layers.append(new_layer)
 

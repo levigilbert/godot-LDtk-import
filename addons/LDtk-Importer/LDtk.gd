@@ -84,7 +84,7 @@ func get_entity_size(entity_identifier):
 
 
 #create new TileMap from tilemap_data.
-func new_tilemap(tilemap_data):
+func new_tilemap(tilemap_data, level):
 	if tilemap_data.__type == 'IntGrid' and get_layer_tileset_data(tilemap_data.layerDefUid) == null:
 		return
 
@@ -92,7 +92,7 @@ func new_tilemap(tilemap_data):
 	var tileset_data = get_layer_tileset_data(tilemap_data.layerDefUid)
 	tilemap.tile_set = new_tileset(tileset_data)
 	tilemap.name = tilemap_data.__identifier
-	tilemap.position = Vector2(tilemap_data.__pxTotalOffsetX, tilemap_data.__pxTotalOffsetY)
+	tilemap.position = Vector2(level.worldX, level.worldY)
 	tilemap.cell_size = Vector2(tilemap_data.__gridSize, tilemap_data.__gridSize)
 	tilemap.modulate = Color(1,1,1, tilemap_data.__opacity)
 
