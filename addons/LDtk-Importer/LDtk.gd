@@ -53,7 +53,12 @@ func new_entity(entity_data):
 						new_entity = RigidBody2D.new()
 					'StaticBody2D':
 						new_entity = StaticBody2D.new()
+					_:
+						return
 	else:
+		return
+
+	if not new_entity:
 		return
 
 	match new_entity.get_class():
