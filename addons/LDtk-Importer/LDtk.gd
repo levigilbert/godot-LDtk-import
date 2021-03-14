@@ -59,6 +59,8 @@ func new_entity(entity_data, level):
 							printerr("Could not load resource: ", field.__value)
 							return
 						new_entity = resource.instance()
+						new_entity.position = Vector2(entity_data.px[0] + level.worldX, entity_data.px[1] + level.worldY)
+						return new_entity
 	else:
 		return
 
@@ -93,13 +95,13 @@ func get_entity_size(entity_identifier):
 
 
 #create new TileMap from tilemap_data.
-func new_tilemap(tilemap_data, level):
+func new_tilemap(tilemap_data, level, options):
 	if tilemap_data.__type == 'IntGrid' and get_layer_tileset_data(tilemap_data.layerDefUid) == null:
 		return
 
 	var tilemap = TileMap.new()
 	var tileset_data = get_layer_tileset_data(tilemap_data.layerDefUid)
-	tilemap.tile_set = new_tileset(tileset_data)
+	tilemap.tile_set = new_tileset(tileset_data, options.Import_Collisions)
 	tilemap.name = tilemap_data.__identifier
 	tilemap.position = Vector2(level.worldX, level.worldY)
 	tilemap.cell_size = Vector2(tilemap_data.__gridSize, tilemap_data.__gridSize)
@@ -123,12 +125,11 @@ func new_tilemap(tilemap_data, level):
 				tilemap.set_cellv(grid_coords, tile.d[1], flipX, flipY)
 				tilemap.set_cellv(grid_coords, tile.t, flipX, flipY)
 
-
 	return tilemap
 
 
 #create new tileset from tileset_data.
-func new_tileset(tileset_data):
+func new_tileset(tileset_data, import_collisions):
 	var tileset = TileSet.new()
 	var texture_filepath = map_data.base_dir + '/' + tileset_data.relPath
 	var texture = load(texture_filepath)
@@ -139,6 +140,11 @@ func new_tileset(tileset_data):
 	var gridHeight = (tileset_data.pxHei - tileset_data.padding) / (tileset_data.tileGridSize + tileset_data.spacing)
 	var gridSize = gridWidth * gridHeight
 
+	var collision
+	if import_collisions:
+		collision = RectangleShape2D.new()
+		collision.extents = Vector2(tileset_data.tileGridSize, tileset_data.pxWid / tileset_data.tileGridSize)
+	
 	for tileId in range(0, gridSize):
 		var tile_image = texture_image.get_rect(get_tile_region(tileId, tileset_data))
 		if not tile_image.is_invisible():
@@ -146,6 +152,8 @@ func new_tileset(tileset_data):
 			tileset.tile_set_tile_mode(tileId, TileSet.SINGLE_TILE)
 			tileset.tile_set_texture(tileId, texture)
 			tileset.tile_set_region(tileId, get_tile_region(tileId, tileset_data))
+			if import_collisions:
+				tileset.tile_set_shape(tileId, tileId, collision)
 
 	return tileset
 
