@@ -31,7 +31,8 @@ func get_layer_entities(layer, level):
 	var entities = []
 	for entity in layer.entityInstances:
 		var new_entity = new_entity(entity, level)
-		entities.append(new_entity)
+		if new_entity:
+			entities.append(new_entity)
 
 	return entities
 
@@ -62,6 +63,7 @@ func new_entity(entity_data, level):
 						new_entity.position = Vector2(entity_data.px[0] + level.worldX, entity_data.px[1] + level.worldY)
 						return new_entity
 	else:
+		printerr("Could not load entity data: ", entity_data)
 		return
 
 	if not new_entity:
