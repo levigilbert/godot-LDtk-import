@@ -231,21 +231,52 @@ func import_collisions(tilemap_data, level, options):
 	var half_grid_size = grid_size / 2
 	var tile_size = Vector2(grid_size, grid_size)
 	
-	var i = -1
-	for tileId in tilemap_data.intGridCsv:
-		i += 1
-		if (tileId == 0):
+	var started_adding_collision = false
+	var initial_position = Vector2()
+	var ending_position = Vector2()
+	var current_tile_count = 1
+	for i in range(0, tilemap_data.intGridCsv.size()):
+		var should_end = false
+		if (tilemap_data.intGridCsv[i] == 0):
+			if not started_adding_collision:
+				current_tile_count += 1
+				continue
+			should_end = true
+		
+		var coords
+		if not should_end:
+			current_tile_count += 1
+
+			coords = coordId_to_gridCoords(i, layer_width)
+			if coords.x == layer_width - 1:
+				should_end = true
+			
+			coords *= tile_size
+			coords.x += half_grid_size
+			coords.y += half_grid_size
+			ending_position = coords
+		
+		if should_end:
+			var col_shape = get_collision_shape(tile_size, initial_position, ending_position, current_tile_count)
+			layer.add_child(col_shape)
+			started_adding_collision = false
 			continue
 		
-		var coords = coordId_to_gridCoords(i, layer_width)
-		coords *= tile_size
-		coords.x += half_grid_size
-		coords.y += half_grid_size
-		
-		var col_shape = CollisionShape2D.new()
-		col_shape.shape = RectangleShape2D.new()
-		col_shape.shape.extents = tile_size / 2
-		col_shape.position = coords
-		layer.add_child(col_shape)
+		if started_adding_collision == false:
+			started_adding_collision = true
+			initial_position = coords
+			ending_position = initial_position
+			current_tile_count = 1
+			continue
 			
 	return layer
+
+func get_collision_shape(tile_size, start_position, end_position, tile_count):
+	var col_shape = CollisionShape2D.new()
+	col_shape.shape = RectangleShape2D.new()
+	col_shape.shape.extents.x = tile_count * (tile_size.x / 2)
+	col_shape.shape.extents.y = tile_size.y / 2
+	col_shape.position.x = ((start_position.x + end_position.x) / 2)
+	col_shape.position.y = ((start_position.y + end_position.y) / 2)
+	
+	return col_shape
