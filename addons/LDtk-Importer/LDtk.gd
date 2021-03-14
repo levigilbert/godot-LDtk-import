@@ -24,13 +24,13 @@ func load_LDtk_file(filepath):
 
 
 #get layer entities
-func get_layer_entities(layer, level):
+func get_layer_entities(layer, level, options):
 	if layer.__type != 'Entities':
 		return
 
 	var entities = []
 	for entity in layer.entityInstances:
-		var new_entity = new_entity(entity, level)
+		var new_entity = new_entity(entity, level, options)
 		if new_entity:
 			entities.append(new_entity)
 
@@ -38,7 +38,7 @@ func get_layer_entities(layer, level):
 
 
 #create new entity
-func new_entity(entity_data, level):
+func new_entity(entity_data, level, options):
 	var new_entity
 	if entity_data.fieldInstances:
 		for field in entity_data.fieldInstances:
@@ -55,6 +55,9 @@ func new_entity(entity_data, level):
 					'StaticBody2D':
 						new_entity = StaticBody2D.new()
 					_:
+						if not options.Import_Custom_Entities:
+							return
+
 						var resource = load(field.__value)
 						if not resource:
 							printerr("Could not load resource: ", field.__value)

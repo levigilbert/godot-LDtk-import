@@ -50,6 +50,11 @@ func get_import_options(preset):
 		{
 			"name": "Import_Collisions",
 			"default_value": preset == Presets.PRESET_COLLISIONS
+		},
+		{
+			"name": "Import_Custom_Entities",
+			"default_value": true,
+			"hint_string": "If true, will only use this project's scenes. If false, will import objects as simple scenes."
 		}
 	]
 
@@ -78,6 +83,10 @@ func import(source_file, save_path, options, platform_v, r_gen_files):
 
 			for child in layerInstance.get_children():
 				child.set_owner(map)
+				
+				if not options.Import_Custom_Entities:
+					for grandchild in child.get_children():
+						grandchild.set_owner(map)
 
 	var packed_scene = PackedScene.new()
 	packed_scene.pack(map)
@@ -93,7 +102,7 @@ func get_level_layerInstances(level, options):
 			'Entities':
 				var new_node = Node2D.new()
 				new_node.name = layerInstance.__identifier
-				var entities = LDtk.get_layer_entities(layerInstance, level)
+				var entities = LDtk.get_layer_entities(layerInstance, level, options)
 				for entity in entities:
 					new_node.add_child(entity)
 

@@ -36,9 +36,10 @@ Can now create tilemaps from autolayers and intgrid layers with tilesets.  Intgr
 
 ## Options:
 - Import_Collisions: If you want to import collision for the tiles (see import collisions below) or not
+- Import_Custom_Entities: If you want to import your own Resources (see entities), this should be set to true. Keep in mind that this will remove the other node options (they will still be imported, but only as Node2D).
 
 ## Importing Collisions:
-- Create a layer called "Collisions", any tile in it will have a RectangleShape2D added to it
+- Create a layer called "Collisions", any tile in it will have a RectangleShape2D added to in a new layer.
 
 ### Entities:
 You can set up how your entities are imported:
@@ -48,11 +49,14 @@ You can set up how your entities are imported:
 4. Set the Default Value to the type of Node
 
 Current node options are:
+1. If not using Custom Entities:
 - Position2D
 - Area2D
 - KinematicBody2D
 - RigidBody2D
 - StaticBody2D
+2. If using Custom Entities:
+- Position2D, Area2D, KinematicBody2D, RigidBody2D, and StaticBody2D will be imported as Node2D
 - Path to Resource (eg: 'res://Player.tscn'), this will use 'load().instance()' to create your existing node
 
 ## Notes:
