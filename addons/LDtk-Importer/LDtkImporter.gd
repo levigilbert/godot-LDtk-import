@@ -78,8 +78,6 @@ func import(source_file, save_path, options, platform_v, r_gen_files):
 
 			for child in layerInstance.get_children():
 				child.set_owner(map)
-				for grandchild in child.get_children():
-					grandchild.set_owner(map)
 
 	var packed_scene = PackedScene.new()
 	packed_scene.pack(map)
