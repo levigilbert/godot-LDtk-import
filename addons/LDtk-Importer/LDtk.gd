@@ -54,7 +54,11 @@ func new_entity(entity_data, level):
 					'StaticBody2D':
 						new_entity = StaticBody2D.new()
 					_:
-						return
+						var resource = load(field.__value)
+						if not resource:
+							printerr("Could not load resource: ", field.__value)
+							return
+						new_entity = resource.instance()
 	else:
 		return
 

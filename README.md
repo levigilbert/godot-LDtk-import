@@ -47,6 +47,7 @@ Current node options are:
 - KinematicBody2D
 - RigidBody2D
 - StaticBody2D
+- Path to Resource (eg: 'res://Player.tscn'), this will use 'load().instance()' to create your existing node
 
 ## Notes:
 - The example is using the tileset that comes with LDtk: `Cavernas_by_Adam_Saltsman.png`
