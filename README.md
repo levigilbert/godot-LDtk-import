@@ -34,6 +34,12 @@ Can now create tilemaps from autolayers and intgrid layers with tilesets.  Intgr
 - IntGrid, Tiles, and AutoLayers are imported as TileMap Nodes.
 - Currently Entities have very basic functionality, checkout the testmap.ldtk for examples.
 
+## Options:
+- Import_Collisions: If you want to import collision for the tiles (see import collisions below) or not
+
+## Importing Collisions:
+- Create a layer called "Collisions", any tile in it will have a RectangleShape2D added to it
+
 ### Entities:
 You can set up how your entities are imported:
 1. Create a new Entity
