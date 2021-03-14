@@ -24,20 +24,20 @@ func load_LDtk_file(filepath):
 
 
 #get layer entities
-func get_layer_entities(layer):
+func get_layer_entities(layer, level):
 	if layer.__type != 'Entities':
 		return
 
 	var entities = []
 	for entity in layer.entityInstances:
-		var new_entity = new_entity(entity)
+		var new_entity = new_entity(entity, level)
 		entities.append(new_entity)
 
 	return entities
 
 
 #create new entity
-func new_entity(entity_data):
+func new_entity(entity_data, level):
 	var new_entity
 	if entity_data.fieldInstances:
 		for field in entity_data.fieldInstances:
@@ -67,7 +67,7 @@ func new_entity(entity_data):
 			new_entity.add_child(col_shape)
 
 	new_entity.name = entity_data.__identifier
-	new_entity.position = Vector2(entity_data.px[0], entity_data.px[1])
+	new_entity.position = Vector2(entity_data.px[0] + level.worldX, entity_data.px[1] + level.worldY)
 
 	return new_entity
 

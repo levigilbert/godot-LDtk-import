@@ -86,7 +86,7 @@ func get_level_layerInstances(level):
 			'Entities':
 				var new_node = Node2D.new()
 				new_node.name = layerInstance.__identifier
-				var entities = LDtk.get_layer_entities(layerInstance)
+				var entities = LDtk.get_layer_entities(layerInstance, level)
 				for entity in entities:
 					new_node.add_child(entity)
 
