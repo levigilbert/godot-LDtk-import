@@ -95,13 +95,10 @@ func get_entity_size(entity_identifier):
 
 
 #create new TileMap from tilemap_data.
-func new_tilemap(tilemap_data, level, options):
-	if tilemap_data.__type == 'IntGrid' and get_layer_tileset_data(tilemap_data.layerDefUid) == null:
-		return
-
+func new_tilemap(tilemap_data, level):
 	var tilemap = TileMap.new()
 	var tileset_data = get_layer_tileset_data(tilemap_data.layerDefUid)
-	tilemap.tile_set = new_tileset(tileset_data, options.Import_Collisions)
+	tilemap.tile_set = new_tileset(tilemap_data, tileset_data)
 	tilemap.name = tilemap_data.__identifier
 	tilemap.position = Vector2(level.worldX, level.worldY)
 	tilemap.cell_size = Vector2(tilemap_data.__gridSize, tilemap_data.__gridSize)
@@ -129,7 +126,7 @@ func new_tilemap(tilemap_data, level, options):
 
 
 #create new tileset from tileset_data.
-func new_tileset(tileset_data, import_collisions):
+func new_tileset(tilemap_data, tileset_data):
 	var tileset = TileSet.new()
 	var texture_filepath = map_data.base_dir + '/' + tileset_data.relPath
 	var texture = load(texture_filepath)
@@ -140,11 +137,6 @@ func new_tileset(tileset_data, import_collisions):
 	var gridHeight = (tileset_data.pxHei - tileset_data.padding) / (tileset_data.tileGridSize + tileset_data.spacing)
 	var gridSize = gridWidth * gridHeight
 
-	var collision
-	if import_collisions:
-		collision = RectangleShape2D.new()
-		collision.extents = Vector2(tileset_data.tileGridSize, tileset_data.pxWid / tileset_data.tileGridSize)
-	
 	for tileId in range(0, gridSize):
 		var tile_image = texture_image.get_rect(get_tile_region(tileId, tileset_data))
 		if not tile_image.is_invisible():
@@ -152,8 +144,6 @@ func new_tileset(tileset_data, import_collisions):
 			tileset.tile_set_tile_mode(tileId, TileSet.SINGLE_TILE)
 			tileset.tile_set_texture(tileId, texture)
 			tileset.tile_set_region(tileId, get_tile_region(tileId, tileset_data))
-			if import_collisions:
-				tileset.tile_set_shape(tileId, tileId, collision)
 
 	return tileset
 
@@ -210,3 +200,47 @@ func tileId_to_pxCoords(tileId, atlasGridSize, atlasGridWidth, padding, spacing)
 	var pixelTileY = padding + gridCoords.y * (atlasGridSize + spacing)
 
 	return Vector2(pixelTileX, pixelTileY)
+
+func import_collisions(tilemap_data, level, options):
+	if tilemap_data.__type == 'IntGrid' and get_layer_tileset_data(tilemap_data.layerDefUid) == null:
+		return
+		
+	var shouldImportCollisions = options.Import_Collisions and tilemap_data.__identifier == "Collisions"
+	if not shouldImportCollisions:
+		return
+	
+	var tileset_data = get_layer_tileset_data(tilemap_data.layerDefUid)
+	var collision = RectangleShape2D.new()
+	collision.extents = Vector2(tileset_data.tileGridSize, tileset_data.pxWid / tileset_data.tileGridSize)
+	
+	if not tilemap_data.intGridCsv:
+		return
+	
+	var layer = StaticBody2D.new()
+	layer.name = 'CollisionsLayer'
+	layer.position = Vector2(level.worldX, level.worldY)
+	
+	var layer_width = tilemap_data.__cWid
+	var grid_size = tilemap_data.__gridSize
+	
+	var half_grid_size = grid_size / 2
+	var tile_size = Vector2(grid_size, grid_size)
+	
+	var i = -1
+	for tileId in tilemap_data.intGridCsv:
+		i += 1
+		if (tileId == 0):
+			continue
+		
+		var coords = coordId_to_gridCoords(i, layer_width)
+		coords *= tile_size
+		coords.x += half_grid_size
+		coords.y += half_grid_size
+		
+		var col_shape = CollisionShape2D.new()
+		col_shape.shape = RectangleShape2D.new()
+		col_shape.shape.extents = tile_size / 2
+		col_shape.position = coords
+		layer.add_child(col_shape)
+			
+	return layer

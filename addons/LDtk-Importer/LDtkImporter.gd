@@ -101,8 +101,13 @@ func get_level_layerInstances(level, options):
 
 				layers.append(new_node)
 			'Tiles', 'IntGrid', 'AutoLayer':
-				var new_layer = LDtk.new_tilemap(layerInstance, level, options)
+				var new_layer = LDtk.new_tilemap(layerInstance, level)
 				if new_layer:
 					layers.append(new_layer)
+
+		if layerInstance.__type == 'IntGrid':
+			var collision_layer = LDtk.import_collisions(layerInstance, level, options)
+			if collision_layer:
+				layers.append(collision_layer)
 
 	return layers
