@@ -99,15 +99,15 @@ func get_level_layerInstances(level, options):
 				for entity in entities:
 					new_node.add_child(entity)
 
-				layers.append(new_node)
+				layers.push_front(new_node)
 			'Tiles', 'IntGrid', 'AutoLayer':
 				var new_layer = LDtk.new_tilemap(layerInstance, level)
 				if new_layer:
-					layers.append(new_layer)
+					layers.push_front(new_layer)
 
 		if layerInstance.__type == 'IntGrid':
 			var collision_layer = LDtk.import_collisions(layerInstance, level, options)
 			if collision_layer:
-				layers.append(collision_layer)
+				layers.push_front(collision_layer)
 
 	return layers
