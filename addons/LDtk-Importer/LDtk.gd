@@ -24,21 +24,25 @@ func load_LDtk_file(filepath):
 
 
 #get layer entities
-func get_layer_entities(layer):
+func get_layer_entities(layer, level, options):
 	if layer.__type != 'Entities':
 		return
 
 	var entities = []
 	for entity in layer.entityInstances:
-		var new_entity = new_entity(entity)
-		entities.append(new_entity)
+		var new_entity = new_entity(entity, level, options)
+		if new_entity:
+			entities.append(new_entity)
 
 	return entities
 
 
 #create new entity
-func new_entity(entity_data):
+func new_entity(entity_data, level, options):
 	var new_entity
+	var metadata = []
+	
+	var is_custom_entity = false
 	if entity_data.fieldInstances:
 		for field in entity_data.fieldInstances:
 			if field.__identifier == 'NodeType' and field.__type == 'String':
@@ -53,8 +57,34 @@ func new_entity(entity_data):
 						new_entity = RigidBody2D.new()
 					'StaticBody2D':
 						new_entity = StaticBody2D.new()
+					_:
+						if not options.Import_Custom_Entities:
+							return
+
+						var resource = load(field.__value)
+						if not resource:
+							printerr("Could not load resource: ", field.__value)
+							return
+						new_entity = resource.instance()
+						new_entity.position = Vector2(entity_data.px[0] + level.worldX, entity_data.px[1] + level.worldY)
+						is_custom_entity = true
+			elif options.Import_Metadata:
+				metadata.append({'name': field.__identifier, 'value': field.__value})
 	else:
+		printerr("Could not load entity data: ", entity_data)
 		return
+
+	if not new_entity:
+		return
+
+	for data in metadata:
+		if data['name'] in new_entity:
+			new_entity[data['name']] = data['value']
+		else:
+			new_entity.set_meta(data['name'], data['value'])
+
+	if is_custom_entity:
+		return new_entity
 
 	match new_entity.get_class():
 		'Area2D', 'KinematicBody2D', 'RigidBody2D', 'StaticBody2D':
@@ -62,7 +92,7 @@ func new_entity(entity_data):
 			new_entity.add_child(col_shape)
 
 	new_entity.name = entity_data.__identifier
-	new_entity.position = Vector2(entity_data.px[0], entity_data.px[1])
+	new_entity.position = Vector2(entity_data.px[0] + level.worldX, entity_data.px[1] + level.worldY)
 
 	return new_entity
 
@@ -84,15 +114,12 @@ func get_entity_size(entity_identifier):
 
 
 #create new TileMap from tilemap_data.
-func new_tilemap(tilemap_data):
-	if tilemap_data.__type == 'IntGrid' and get_layer_tileset_data(tilemap_data.layerDefUid) == null:
-		return
-
+func new_tilemap(tilemap_data, level):
 	var tilemap = TileMap.new()
 	var tileset_data = get_layer_tileset_data(tilemap_data.layerDefUid)
-	tilemap.tile_set = new_tileset(tileset_data)
+	tilemap.tile_set = new_tileset(tilemap_data, tileset_data)
 	tilemap.name = tilemap_data.__identifier
-	tilemap.position = Vector2(tilemap_data.__pxTotalOffsetX, tilemap_data.__pxTotalOffsetY)
+	tilemap.position = Vector2(level.worldX, level.worldY)
 	tilemap.cell_size = Vector2(tilemap_data.__gridSize, tilemap_data.__gridSize)
 	tilemap.modulate = Color(1,1,1, tilemap_data.__opacity)
 
@@ -114,12 +141,11 @@ func new_tilemap(tilemap_data):
 				tilemap.set_cellv(grid_coords, tile.d[1], flipX, flipY)
 				tilemap.set_cellv(grid_coords, tile.t, flipX, flipY)
 
-
 	return tilemap
 
 
 #create new tileset from tileset_data.
-func new_tileset(tileset_data):
+func new_tileset(tilemap_data, tileset_data):
 	var tileset = TileSet.new()
 	var texture_filepath = map_data.base_dir + '/' + tileset_data.relPath
 	var texture = load(texture_filepath)
@@ -193,3 +219,78 @@ func tileId_to_pxCoords(tileId, atlasGridSize, atlasGridWidth, padding, spacing)
 	var pixelTileY = padding + gridCoords.y * (atlasGridSize + spacing)
 
 	return Vector2(pixelTileX, pixelTileY)
+
+func import_collisions(tilemap_data, level, options):
+	if tilemap_data.__type == 'IntGrid' and get_layer_tileset_data(tilemap_data.layerDefUid) == null:
+		return
+		
+	var shouldImportCollisions = options.Import_Collisions and tilemap_data.__identifier == "Collisions"
+	if not shouldImportCollisions:
+		return
+	
+	var tileset_data = get_layer_tileset_data(tilemap_data.layerDefUid)
+	var collision = RectangleShape2D.new()
+	collision.extents = Vector2(tileset_data.tileGridSize, tileset_data.pxWid / tileset_data.tileGridSize)
+	
+	if not tilemap_data.intGridCsv:
+		return
+	
+	var layer = StaticBody2D.new()
+	layer.name = 'CollisionsLayer'
+	layer.position = Vector2(level.worldX, level.worldY)
+	
+	var layer_width = tilemap_data.__cWid
+	var grid_size = tilemap_data.__gridSize
+	
+	var half_grid_size = grid_size / 2
+	var tile_size = Vector2(grid_size, grid_size)
+	
+	var started_adding_collision = false
+	var initial_position = Vector2()
+	var ending_position = Vector2()
+	var current_tile_count = 1
+	for i in range(0, tilemap_data.intGridCsv.size()):
+		var should_end = false
+		if (tilemap_data.intGridCsv[i] == 0):
+			if not started_adding_collision:
+				current_tile_count += 1
+				continue
+			should_end = true
+		
+		var coords
+		if not should_end:
+			current_tile_count += 1
+
+			coords = coordId_to_gridCoords(i, layer_width)
+			if coords.x == layer_width - 1:
+				should_end = true
+			
+			coords *= tile_size
+			coords.x += half_grid_size
+			coords.y += half_grid_size
+			ending_position = coords
+		
+		if should_end:
+			var col_shape = get_collision_shape(tile_size, initial_position, ending_position, current_tile_count)
+			layer.add_child(col_shape)
+			started_adding_collision = false
+			continue
+		
+		if started_adding_collision == false:
+			started_adding_collision = true
+			initial_position = coords
+			ending_position = initial_position
+			current_tile_count = 1
+			continue
+			
+	return layer
+
+func get_collision_shape(tile_size, start_position, end_position, tile_count):
+	var col_shape = CollisionShape2D.new()
+	col_shape.shape = RectangleShape2D.new()
+	col_shape.shape.extents.x = tile_count * (tile_size.x / 2)
+	col_shape.shape.extents.y = tile_size.y / 2
+	col_shape.position.x = ((start_position.x + end_position.x) / 2)
+	col_shape.position.y = ((start_position.y + end_position.y) / 2)
+	
+	return col_shape
