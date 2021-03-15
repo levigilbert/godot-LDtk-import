@@ -37,6 +37,7 @@ Can now create tilemaps from autolayers and intgrid layers with tilesets.  Intgr
 ## Options:
 - Import_Collisions: If you want to import collision for the tiles (see import collisions below) or not
 - Import_Custom_Entities: If you want to import your own Resources (see entities), this should be set to true. Keep in mind that this will remove the other node options (they will still be imported, but only as Node2D).
+- Import_Metadata: If set, will import any fields set on the entities as metadata (using 'set_meta()'). They can be retrieved later using 'get_meta()' on the imported object.
 
 ## Importing Collisions:
 - Create a layer called "Collisions", any tile in it will have a RectangleShape2D added to in a new layer.
@@ -47,6 +48,7 @@ You can set up how your entities are imported:
 2. Add a String Field Type
 3. Set the Field Identifier to: `NodeType`
 4. Set the Default Value to the type of Node
+5. Any fields added to the entity can be added as metadata if the option is set when importing (retrieve using the function 'get_meta()' on the object after importing)
 
 Current node options are:
 1. If not using Custom Entities:

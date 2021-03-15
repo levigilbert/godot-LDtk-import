@@ -55,6 +55,11 @@ func get_import_options(preset):
 			"name": "Import_Custom_Entities",
 			"default_value": true,
 			"hint_string": "If true, will only use this project's scenes. If false, will import objects as simple scenes."
+		},
+		{
+			"name": "Import_Metadata",
+			"default_value": true,
+			"hint_string": "If true, will import entity fields as metadata."
 		}
 	]
 

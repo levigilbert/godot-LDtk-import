@@ -40,6 +40,9 @@ func get_layer_entities(layer, level, options):
 #create new entity
 func new_entity(entity_data, level, options):
 	var new_entity
+	var metadata = []
+	
+	var is_custom_entity = false
 	if entity_data.fieldInstances:
 		for field in entity_data.fieldInstances:
 			if field.__identifier == 'NodeType' and field.__type == 'String':
@@ -64,13 +67,21 @@ func new_entity(entity_data, level, options):
 							return
 						new_entity = resource.instance()
 						new_entity.position = Vector2(entity_data.px[0] + level.worldX, entity_data.px[1] + level.worldY)
-						return new_entity
+						is_custom_entity = true
+			elif options.Import_Metadata:
+				metadata.append({'name': field.__identifier, 'value': field.__value})
 	else:
 		printerr("Could not load entity data: ", entity_data)
 		return
 
 	if not new_entity:
 		return
+
+	for data in metadata:
+		new_entity.set_meta(data['name'], data['value'])
+
+	if is_custom_entity:
+		return new_entity
 
 	match new_entity.get_class():
 		'Area2D', 'KinematicBody2D', 'RigidBody2D', 'StaticBody2D':
