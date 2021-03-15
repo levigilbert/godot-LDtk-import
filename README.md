@@ -1,6 +1,6 @@
 # godot-LDtk-import
 - Godot version: 3.2.3
-- LDtk version: 0.6.2
+- LDtk version: 0.8.0
 
 Basic GDscript for importing LDtk files into the Godot game engine.
 
@@ -10,6 +10,10 @@ Basic GDscript for importing LDtk files into the Godot game engine.
 - [LDtk JSON Format](https://github.com/deepnight/ldtk/blob/master/JSON_DOC.md)
 
 ## Updates:
+### 3/15/2021
+- Added option to import custom entities
+- Added option to import metadata
+- Added option to import collisions
 ### 1/4/2021:
 - Updated for new version of LDtk.
 - Changed import style: instead of making a new scene you can just open the ldtk file.

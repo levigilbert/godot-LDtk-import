@@ -117,6 +117,9 @@ func get_entity_size(entity_identifier):
 func new_tilemap(tilemap_data, level):
 	var tilemap = TileMap.new()
 	var tileset_data = get_layer_tileset_data(tilemap_data.layerDefUid)
+	if not tileset_data:
+		return
+	
 	tilemap.tile_set = new_tileset(tilemap_data, tileset_data)
 	tilemap.name = tilemap_data.__identifier
 	tilemap.position = Vector2(level.worldX, level.worldY)
