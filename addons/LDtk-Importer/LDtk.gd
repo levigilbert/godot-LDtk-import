@@ -78,7 +78,10 @@ func new_entity(entity_data, level, options):
 		return
 
 	for data in metadata:
-		new_entity.set_meta(data['name'], data['value'])
+		if data['name'] in new_entity:
+			new_entity[data['name']] = data['value']
+		else:
+			new_entity.set_meta(data['name'], data['value'])
 
 	if is_custom_entity:
 		return new_entity
