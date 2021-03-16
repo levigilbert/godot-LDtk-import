@@ -87,7 +87,7 @@ class TestTileSet:
 	func test_new_tileset():
 		LDtk.map_data = 'res://testmap.ldtk'
 		var tileset_data = LDtk.map_data.defs.tilesets[0]
-		var tileset = LDtk.new_tileset(tileset_data)
+		var tileset = LDtk.new_tileset(LDtk.map_data, tileset_data)
 
 		var tile_count = 205
 		var tilset_tile_array = tileset.get_tiles_ids()
@@ -102,7 +102,7 @@ class TestLayerTypes:
 	func test_tiles_layer():
 		LDtk.map_data = 'res://testmap.ldtk'
 		var tilemap_data = LDtk.map_data.levels[0].layerInstances[0]
-		var tilemap = LDtk.new_tilemap(tilemap_data)
+		var tilemap = LDtk.new_tilemap(tilemap_data, LDtk.map_data.levels[0])
 		assert_eq(tilemap.name, 'Ground')
 		assert_eq(tilemap.cell_size, Vector2(8,8))
 
@@ -112,7 +112,7 @@ class TestLayerTypes:
 	func test_autolayer_layer():
 		LDtk.map_data = 'res://testmap.ldtk'
 		var tilemap_data = LDtk.map_data.levels[0].layerInstances[1]
-		var tilemap = LDtk.new_tilemap(tilemap_data)
+		var tilemap = LDtk.new_tilemap(tilemap_data, LDtk.map_data.levels[0])
 		assert_eq(tilemap.name, 'AutoLayer')
 		assert_eq(tilemap.cell_size, Vector2(8,8))
 
@@ -122,14 +122,14 @@ class TestLayerTypes:
 	func test_intgrid_layer_without_tileset():
 		LDtk.map_data = 'res://testmap.ldtk'
 		var tilemap_data = LDtk.map_data.levels[0].layerInstances[2]
-		var tilemap = LDtk.new_tilemap(tilemap_data)
+		var tilemap = LDtk.new_tilemap(tilemap_data, LDtk.map_data.levels[0])
 		assert_false(tilemap)
 
 
 	func test_intgrid_layer_with_tileset():
 		LDtk.map_data = 'res://testmap.ldtk'
 		var tilemap_data = LDtk.map_data.levels[0].layerInstances[3]
-		var tilemap = LDtk.new_tilemap(tilemap_data)
+		var tilemap = LDtk.new_tilemap(tilemap_data, LDtk.map_data.levels[0])
 		assert_eq(tilemap.name, 'IntGridTiles')
 		assert_eq(tilemap.cell_size, Vector2(8,8))
 
