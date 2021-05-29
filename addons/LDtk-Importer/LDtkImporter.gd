@@ -60,6 +60,10 @@ func get_import_options(preset):
 			"name": "Import_Metadata",
 			"default_value": true,
 			"hint_string": "If true, will import entity fields as metadata."
+		},
+		{
+			"name": "Import_YSort_Entities_Layer",
+			"default_value": false
 		}
 	]
 
@@ -106,7 +110,11 @@ func get_level_layerInstances(level, options):
 	for layerInstance in level.layerInstances:
 		match layerInstance.__type:
 			'Entities':
-				var new_node = Node2D.new()
+				var new_node = null
+				if options.Import_YSort_Entities_Layer and layerInstance.__identifier.begins_with("YSort"):
+					new_node = YSort.new()
+				else:
+					new_node = Node2D.new()
 				new_node.z_index = i
 				new_node.name = layerInstance.__identifier
 				var entities = LDtk.get_layer_entities(layerInstance, level, options)
