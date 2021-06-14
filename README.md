@@ -10,6 +10,8 @@ Basic GDscript for importing LDtk files into the Godot game engine.
 - [LDtk JSON Format](https://github.com/deepnight/ldtk/blob/master/JSON_DOC.md)
 
 ## Updates:
+### 5/29/2021
+- Added option to import entities layer as YSort
 ### 3/15/2021
 - Added option to import custom entities
 - Added option to import metadata
@@ -42,6 +44,7 @@ Can now create tilemaps from autolayers and intgrid layers with tilesets.  Intgr
 - Import_Collisions: If you want to import collision for the tiles (see import collisions below) or not
 - Import_Custom_Entities: If you want to import your own Resources (see entities), this should be set to true. Keep in mind that this will remove the other node options (they will still be imported, but only as Node2D).
 - Import_Metadata: If set, will import any fields set on the entities. If they have an exported property with the same name, it will set the value of the property with the value on LDtk, if they don't (or the plugin can't find it), they will be imported as metadata (using 'set_meta()') and can be retrieved later using 'get_meta()' on the imported object.
+- Import_YSort_Entities_Layer: If set, any Entities Layer whose name begins with "YSort" will be imported as a YSort node, and all the entities will be set as children of this YSort node.
 
 ## Importing Collisions:
 - Create a layer called "Collisions", any tile in it will have a RectangleShape2D added to in a new layer.
