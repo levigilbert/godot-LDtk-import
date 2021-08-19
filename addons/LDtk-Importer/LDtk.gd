@@ -166,6 +166,15 @@ func new_tileset(tilemap_data, tileset_data):
 			tileset.tile_set_tile_mode(tileId, TileSet.SINGLE_TILE)
 			tileset.tile_set_texture(tileId, texture)
 			tileset.tile_set_region(tileId, get_tile_region(tileId, tileset_data))
+			
+			for data in tileset_data.customData:
+				if tileId == data.tileId:
+					var jsonObj = parse_json(data.data)
+					
+					if "light_occluder_shape" in data.data:
+						tileset.tile_set_light_occluder(tileId, get_tile_light_occluder_custom_shape(tileId, jsonObj.light_occluder_shape))
+					elif "light_occluder" in jsonObj and jsonObj.light_occluder == true: 
+						tileset.tile_set_light_occluder(tileId, get_tile_light_occluder(tileId, tileset_data))
 
 	return tileset
 
@@ -297,3 +306,29 @@ func get_collision_shape(tile_size, start_position, end_position, tile_count):
 	col_shape.position.y = ((start_position.y + end_position.y) / 2)
 	
 	return col_shape
+
+# Returns a OccluderPolygon2D for the given tile
+func get_tile_light_occluder(tileId, tileset_data):
+	var region = get_tile_region(tileId, tileset_data)
+	var polygon = OccluderPolygon2D.new()
+	
+	polygon.set_polygon(PoolVector2Array([
+		Vector2(region.size.x, 0), # top right
+		region.size,               # bottom right
+		Vector2(0, region.size.y), # bottom left
+		Vector2.ZERO               # top left
+	]))
+	
+	return polygon
+
+# Returns a OccluderPolygon2D for the given tile with a predefined custom shape.
+func get_tile_light_occluder_custom_shape(tileId, pointArray):
+	var polygon = OccluderPolygon2D.new()
+	
+	var list = PoolVector2Array()
+	for a in pointArray:
+		list.append(Vector2(a.x, a.y))
+	
+	polygon.set_polygon(list)
+	
+	return polygon
