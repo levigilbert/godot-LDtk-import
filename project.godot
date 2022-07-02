@@ -36,7 +36,7 @@ window/stretch/aspect="keep"
 
 [editor_plugins]
 
-enabled=PoolStringArray( "LDtk-Importer", "gut" )
+enabled=PoolStringArray( "res://addons/LDtk-Importer/plugin.cfg", "res://addons/gut/plugin.cfg" )
 
 [rendering]
 

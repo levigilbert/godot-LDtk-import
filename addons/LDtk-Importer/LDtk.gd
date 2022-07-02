@@ -41,7 +41,7 @@ func get_layer_entities(layer, level, options):
 func new_entity(entity_data, level, options):
 	var new_entity
 	var metadata = []
-	
+
 	var is_custom_entity = false
 	if entity_data.fieldInstances:
 		for field in entity_data.fieldInstances:
@@ -118,9 +118,10 @@ func new_tilemap(tilemap_data, level):
 	var tilemap = TileMap.new()
 	var tileset_data = get_layer_tileset_data(tilemap_data.layerDefUid)
 	if not tileset_data:
+		print("no tileset data")
 		return
-	
-	tilemap.tile_set = new_tileset(tilemap_data, tileset_data)
+
+	tilemap.tile_set = new_tileset(tileset_data)
 	tilemap.name = tilemap_data.__identifier
 	tilemap.position = Vector2(level.worldX, level.worldY)
 	tilemap.cell_size = Vector2(tilemap_data.__gridSize, tilemap_data.__gridSize)
@@ -148,7 +149,7 @@ func new_tilemap(tilemap_data, level):
 
 
 #create new tileset from tileset_data.
-func new_tileset(tilemap_data, tileset_data):
+func new_tileset(tileset_data):
 	var tileset = TileSet.new()
 	var texture_filepath = map_data.base_dir + '/' + tileset_data.relPath
 	var texture = load(texture_filepath)
@@ -166,14 +167,14 @@ func new_tileset(tilemap_data, tileset_data):
 			tileset.tile_set_tile_mode(tileId, TileSet.SINGLE_TILE)
 			tileset.tile_set_texture(tileId, texture)
 			tileset.tile_set_region(tileId, get_tile_region(tileId, tileset_data))
-			
+
 			for data in tileset_data.customData:
 				if tileId == data.tileId:
 					var jsonObj = parse_json(data.data)
-					
+
 					if "light_occluder_shape" in data.data:
 						tileset.tile_set_light_occluder(tileId, get_tile_light_occluder_custom_shape(tileId, jsonObj.light_occluder_shape))
-					elif "light_occluder" in jsonObj and jsonObj.light_occluder == true: 
+					elif "light_occluder" in jsonObj and jsonObj.light_occluder == true:
 						tileset.tile_set_light_occluder(tileId, get_tile_light_occluder(tileId, tileset_data))
 
 	return tileset
@@ -235,28 +236,28 @@ func tileId_to_pxCoords(tileId, atlasGridSize, atlasGridWidth, padding, spacing)
 func import_collisions(tilemap_data, level, options):
 	if tilemap_data.__type == 'IntGrid' and get_layer_tileset_data(tilemap_data.layerDefUid) == null:
 		return
-		
+
 	var shouldImportCollisions = options.Import_Collisions and tilemap_data.__identifier == "Collisions"
 	if not shouldImportCollisions:
 		return
-	
+
 	var tileset_data = get_layer_tileset_data(tilemap_data.layerDefUid)
 	var collision = RectangleShape2D.new()
 	collision.extents = Vector2(tileset_data.tileGridSize, tileset_data.pxWid / tileset_data.tileGridSize)
-	
+
 	if not tilemap_data.intGridCsv:
 		return
-	
+
 	var layer = StaticBody2D.new()
 	layer.name = 'CollisionsLayer'
 	layer.position = Vector2(level.worldX, level.worldY)
-	
+
 	var layer_width = tilemap_data.__cWid
 	var grid_size = tilemap_data.__gridSize
-	
+
 	var half_grid_size = grid_size / 2
 	var tile_size = Vector2(grid_size, grid_size)
-	
+
 	var started_adding_collision = false
 	var initial_position = Vector2()
 	var ending_position = Vector2()
@@ -268,7 +269,7 @@ func import_collisions(tilemap_data, level, options):
 				current_tile_count += 1
 				continue
 			should_end = true
-		
+
 		var coords
 		if not should_end:
 			current_tile_count += 1
@@ -276,25 +277,25 @@ func import_collisions(tilemap_data, level, options):
 			coords = coordId_to_gridCoords(i, layer_width)
 			if coords.x == layer_width - 1:
 				should_end = true
-			
+
 			coords *= tile_size
 			coords.x += half_grid_size
 			coords.y += half_grid_size
 			ending_position = coords
-		
+
 		if should_end:
 			var col_shape = get_collision_shape(tile_size, initial_position, ending_position, current_tile_count)
 			layer.add_child(col_shape)
 			started_adding_collision = false
 			continue
-		
+
 		if started_adding_collision == false:
 			started_adding_collision = true
 			initial_position = coords
 			ending_position = initial_position
 			current_tile_count = 1
 			continue
-			
+
 	return layer
 
 func get_collision_shape(tile_size, start_position, end_position, tile_count):
@@ -304,31 +305,31 @@ func get_collision_shape(tile_size, start_position, end_position, tile_count):
 	col_shape.shape.extents.y = tile_size.y / 2
 	col_shape.position.x = ((start_position.x + end_position.x) / 2)
 	col_shape.position.y = ((start_position.y + end_position.y) / 2)
-	
+
 	return col_shape
 
 # Returns a OccluderPolygon2D for the given tile
 func get_tile_light_occluder(tileId, tileset_data):
 	var region = get_tile_region(tileId, tileset_data)
 	var polygon = OccluderPolygon2D.new()
-	
+
 	polygon.set_polygon(PoolVector2Array([
 		Vector2(region.size.x, 0), # top right
 		region.size,               # bottom right
 		Vector2(0, region.size.y), # bottom left
 		Vector2.ZERO               # top left
 	]))
-	
+
 	return polygon
 
 # Returns a OccluderPolygon2D for the given tile with a predefined custom shape.
 func get_tile_light_occluder_custom_shape(tileId, pointArray):
 	var polygon = OccluderPolygon2D.new()
-	
+
 	var list = PoolVector2Array()
 	for a in pointArray:
 		list.append(Vector2(a.x, a.y))
-	
+
 	polygon.set_polygon(list)
-	
+
 	return polygon

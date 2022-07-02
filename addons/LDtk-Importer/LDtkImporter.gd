@@ -45,6 +45,7 @@ func get_preset_name(preset):
 		Presets.PRESET_COLLISIONS:
 			return "Import Collisions"
 
+
 func get_import_options(preset):
 	return [
 		{
@@ -67,8 +68,10 @@ func get_import_options(preset):
 		}
 	]
 
+
 func get_option_visibility(option, options):
 	return true
+
 
 func import(source_file, save_path, options, platform_v, r_gen_files):
 	#load LDtk map
@@ -76,7 +79,7 @@ func import(source_file, save_path, options, platform_v, r_gen_files):
 
 	var map = Node2D.new()
 	map.name = source_file.get_file().get_basename()
-	
+
 	#add levels as Node2D
 	for level in LDtk.map_data.levels:
 		var new_level = Node2D.new()
@@ -92,7 +95,7 @@ func import(source_file, save_path, options, platform_v, r_gen_files):
 
 			for child in layerInstance.get_children():
 				child.set_owner(map)
-				
+
 				if not options.Import_Custom_Entities:
 					for grandchild in child.get_children():
 						grandchild.set_owner(map)
