@@ -235,11 +235,6 @@ func tileId_to_pxCoords(tileId, atlasGridSize, atlasGridWidth, padding, spacing)
 	return Vector2(pixelTileX, pixelTileY)
 
 func import_collisions(tilemap_data, options):
-#return if layer is IntGrid and there's no tileset
-	if tilemap_data.__type == 'IntGrid' and get_layer_tileset_data(tilemap_data.layerDefUid) == null:
-		print('no collisions')
-		return
-
 #return if options has collision import off or layer name isn't "Collisions"
 	var shouldImportCollisions = options.Import_Collisions and tilemap_data.__identifier == "Collisions"
 	if not shouldImportCollisions:
