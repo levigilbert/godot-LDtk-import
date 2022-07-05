@@ -13,7 +13,7 @@ Basic GDscript for importing LDtk files into the Godot game engine.
 ### 7/4/2022
 - Updated to Godot version 3.4.4
 - Updated to LDtk version 1.1.3
-- Fixed collision layer.
+- Fixed collision layer import.
 - Rewrote some of the information below on how to use the importer.
 ### 5/29/2021
 - Added option to import entities layer as YSort.
