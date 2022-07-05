@@ -289,7 +289,7 @@ func import_collisions(tilemap_data, options):
 			ending_position.x -= tile_size.x
 
 #if tile is last tile in row end collision shape
-		if hasTile and (i % int(grid_width)) == 31:
+		if hasTile and (i % int(grid_width)) == (grid_width - 1):
 			endCollision = true
 
 #if ending collision shape, create shape
