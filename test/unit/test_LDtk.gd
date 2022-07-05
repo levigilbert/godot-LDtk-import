@@ -30,6 +30,10 @@ class TestConversions:
 		gridCoords = LDtk.coordId_to_gridCoords(coordId, gridWidth)
 		assert_eq(gridCoords, Vector2(0, 4))
 
+		coordId = 41
+		gridCoords = LDtk.coordId_to_gridCoords(coordId, gridWidth)
+		assert_eq(gridCoords, Vector2(1, 5))
+
 
 	func test_tileId_to_gridCoords():
 		var tileId = 16
@@ -102,7 +106,7 @@ class TestLayerTypes:
 	func test_tiles_layer():
 		LDtk.map_data = 'res://testmap.ldtk'
 		var tilemap_data = LDtk.map_data.levels[0].layerInstances[0]
-		var tilemap = autoqfree(LDtk.new_tilemap(tilemap_data, LDtk.map_data.levels[0]))
+		var tilemap = autoqfree(LDtk.new_tilemap(tilemap_data))
 		assert_eq(tilemap.name, 'Ground')
 		assert_eq(tilemap.cell_size, Vector2(8,8))
 
@@ -110,7 +114,7 @@ class TestLayerTypes:
 	func test_autolayer_layer():
 		LDtk.map_data = 'res://testmap.ldtk'
 		var tilemap_data = LDtk.map_data.levels[0].layerInstances[1]
-		var tilemap = autoqfree(LDtk.new_tilemap(tilemap_data, LDtk.map_data.levels[0]))
+		var tilemap = autoqfree(LDtk.new_tilemap(tilemap_data))
 		assert_eq(tilemap.name, 'AutoLayer')
 		assert_eq(tilemap.cell_size, Vector2(8,8))
 
@@ -118,7 +122,7 @@ class TestLayerTypes:
 	func test_intgrid_layer_without_tileset():
 		LDtk.map_data = 'res://testmap.ldtk'
 		var tilemap_data = LDtk.map_data.levels[0].layerInstances[2]
-		var tilemap = autoqfree(LDtk.new_tilemap(tilemap_data, LDtk.map_data.levels[0]))
+		var tilemap = autoqfree(LDtk.new_tilemap(tilemap_data))
 		assert_true(tilemap == null)
 #		assert_eq(tilemap.name, 'IntGrid')
 #		assert_eq(tilemap.cell_size, Vector2(8,8))
@@ -127,6 +131,54 @@ class TestLayerTypes:
 	func test_intgrid_layer_with_tileset():
 		LDtk.map_data = 'res://testmap.ldtk'
 		var tilemap_data = LDtk.map_data.levels[0].layerInstances[3]
-		var tilemap = autoqfree(LDtk.new_tilemap(tilemap_data, LDtk.map_data.levels[0]))
+		var tilemap = autoqfree(LDtk.new_tilemap(tilemap_data))
 		assert_eq(tilemap.name, 'IntGridTiles')
 		assert_eq(tilemap.cell_size, Vector2(8,8))
+		assert_eq(tilemap.position, Vector2(8,8))
+
+
+class TestCollision:
+	extends "res://addons/gut/test.gd"
+
+	var LDtk = load("res://addons/LDtk-Importer/LDtk.gd").new()
+
+	func test_collision_layer():
+		LDtk.map_data = 'res://testmap.ldtk'
+		var tilemap_data = LDtk.map_data.levels[0].layerInstances[5]
+		var options = {
+			"Import_Collisions" : true
+		}
+		var collisionMap = autoqfree(LDtk.import_collisions(tilemap_data, options))
+		assert_eq(tilemap_data.__identifier, "Collisions")
+		assert_true(collisionMap is StaticBody2D)
+
+
+	func test_get_collision_shape():
+		var tile_size = Vector2(8, 8)
+		var start_position = Vector2(0, 0)
+		var end_position = Vector2(32, 0)
+		var tile_count = 16
+
+		var collision_shape = LDtk.get_collision_shape(tile_size, start_position, end_position, tile_count)
+
+		assert_eq(collision_shape.position, Vector2(16, 0))
+
+
+	func test_collision_tiles():
+		LDtk.map_data = 'res://testmap.ldtk'
+		var tilemap_data = LDtk.map_data.levels[0].layerInstances[5]
+		var options = {
+			"Import_Collisions" : true
+		}
+		var collisionMap = autoqfree(LDtk.import_collisions(tilemap_data, options))
+
+		assert_eq(collisionMap.get_child(0).position, Vector2(4, 4))
+
+
+#class TestEntities:
+#	extends "res://addons/gut/test.gd"
+#
+#	var LDtk = load("res://addons/LDtk-Importer/LDtk.gd").new()
+#
+#	func test_entity():
+#		pass
