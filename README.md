@@ -1,6 +1,6 @@
 # godot-LDtk-import
-- Godot version: 3.2.3
-- LDtk version: 0.8.0
+- Godot version: 3.4.4
+- LDtk version: 1.1.3
 
 Basic GDscript for importing LDtk files into the Godot game engine.
 
@@ -10,12 +10,17 @@ Basic GDscript for importing LDtk files into the Godot game engine.
 - [LDtk JSON Format](https://github.com/deepnight/ldtk/blob/master/JSON_DOC.md)
 
 ## Updates:
+### 7/4/2022
+- Updated to Godot version 3.4.4
+- Updated to LDtk version 1.1.3
+- Fixed collision layer.
+- Rewrote some of the information below on how to use the importer.
 ### 5/29/2021
-- Added option to import entities layer as YSort
+- Added option to import entities layer as YSort.
 ### 3/15/2021
-- Added option to import custom entities
-- Added option to import metadata
-- Added option to import collisions
+- Added option to import custom entities.
+- Added option to import metadata.
+- Added option to import collisions.
 ### 1/4/2021:
 - Updated for new version of LDtk.
 - Changed import style: instead of making a new scene you can just open the ldtk file.
@@ -35,19 +40,20 @@ Can now create tilemaps from autolayers and intgrid layers with tilesets.  Intgr
 1. Copy the addons folder to your godot project folder.
 2. Enable LDtk Importer under Project Settings/Plugins.
 3. Add a .ldtk map file and any spritesheets you're using to your project folder.
+4. Select your .ldtk file and open the Import menu to toggle importing collisions, custom entities, metadata, and YSort.
 
 ## Tips:
 - IntGrid, Tiles, and AutoLayers are imported as TileMap Nodes.
 - Currently Entities have very basic functionality, checkout the testmap.ldtk for examples.
 
-## Options:
-- Import_Collisions: If you want to import collision for the tiles (see import collisions below) or not
-- Import_Custom_Entities: If you want to import your own Resources (see entities), this should be set to true. Keep in mind that this will remove the other node options (they will still be imported, but only as Node2D).
-- Import_Metadata: If set, will import any fields set on the entities. If they have an exported property with the same name, it will set the value of the property with the value on LDtk, if they don't (or the plugin can't find it), they will be imported as metadata (using 'set_meta()') and can be retrieved later using 'get_meta()' on the imported object.
-- Import_YSort_Entities_Layer: If set, any Entities Layer whose name begins with "YSort" will be imported as a YSort node, and all the entities will be set as children of this YSort node.
+## Import Menu Options:
+- Import_Collisions: Import collisions from IntGrid layer (see import collisions below).
+- Import_Custom_Entities: Import your own Resources (see entities). Keep in mind that this will remove the other node options (they will still be imported, but only as Node2D).
+- Import_Metadata: Import any fields set on entities. If they have an exported property with the same name, it will set the value of the property with the value on LDtk, if they don't (or the plugin can't find it), they will be imported as metadata (using 'set_meta()') and can be retrieved later using 'get_meta()' on the imported object.
+- Import_YSort_Entities_Layer: Any Entities Layer whose name begins with "YSort" will be imported as a YSort node, and all the entities will be set as children of this YSort node.
 
 ## Importing Collisions:
-- Create a layer called "Collisions", any tile in it will have a RectangleShape2D added to in a new layer.
+- Create an IntGrid layer called "Collisions", tiles on this layer will be made into CollisionShape2D and added to a StaticBody2D node.
 
 ### Entities:
 You can set up how your entities are imported:
@@ -55,7 +61,7 @@ You can set up how your entities are imported:
 2. Add a String Field Type
 3. Set the Field Identifier to: `NodeType`
 4. Set the Default Value to the type of Node
-5. Any fields added to the entity on LDtk can set properties on the object or be added as metadata if the option is set when importing (retrieve using the function 'get_meta()' on the object after importing)
+5. Any fields added to the entity on LDtk can set properties on the object or be added as metadata if the option is set when importing (retrieve using the function 'get_meta()' on the object after importing).
 
 Current node options are:
 1. If not using Custom Entities:
@@ -65,8 +71,8 @@ Current node options are:
 - RigidBody2D
 - StaticBody2D
 2. If using Custom Entities:
-- Position2D, Area2D, KinematicBody2D, RigidBody2D, and StaticBody2D will be imported as Node2D
-- Path to Resource (eg: 'res://Player.tscn'), this will use 'load().instance()' to create your existing node
+- Position2D, Area2D, KinematicBody2D, RigidBody2D, and StaticBody2D will be imported as Node2D.
+- Path to Resource (eg: 'res://Player.tscn'), this will use 'load().instance()' to create your existing node.
 
 ## Notes:
 - The example is using the tileset that comes with LDtk: `Cavernas_by_Adam_Saltsman.png`
