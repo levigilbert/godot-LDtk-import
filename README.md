@@ -10,6 +10,9 @@ Basic GDscript for importing LDtk files into the Godot game engine.
 - [LDtk JSON Format](https://github.com/deepnight/ldtk/blob/master/JSON_DOC.md)
 
 ## Updates:
+### 7/17/2022
+- New feature: Post Import Script (thanks to univeous)
+- Fixed entities not saving CollisionShape2D's
 ### 7/4/2022
 - Updated to Godot version 3.4.4
 - Updated to LDtk version 1.1.3
