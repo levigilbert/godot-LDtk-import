@@ -52,7 +52,7 @@ Can now create tilemaps from autolayers and intgrid layers with tilesets.  Intgr
 ## Import Menu Options:
 - Import_Collisions: Import collisions from IntGrid layer (see import collisions below).
 - Import_Custom_Entities: Import your own Resources (see entities). Keep in mind that this will remove the other node options (they will still be imported, but only as Node2D).
-- Import_Metadata: Import any fields set on entities. If they have an exported property with the same name, it will set the value of the property with the value on LDtk, if they don't (or the plugin can't find it), they will be imported as metadata (using 'set_meta()') and can be retrieved later using 'get_meta()' on the imported object.
+- Import_Metadata: Import any fields set on entities or levels. For entities, If they have an exported property with the same name, it will set the value of the property with the value on LDtk, if they don't (or the plugin can't find it), they will be imported as metadata (using 'set_meta()') and can be retrieved later using 'get_meta()' on the imported object. Level's fields will all be imported as metadata.
 - Import_YSort_Entities_Layer: Any Entities Layer whose name begins with "YSort" will be imported as a YSort node, and all the entities will be set as children of this YSort node.
 - Post_Import_Script: The selected script will have it's `post_import(scene)` method run. This
 enables you to change the generated scene automatically upon each reimport.
