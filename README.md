@@ -12,6 +12,7 @@ Basic GDscript for importing LDtk files into the Godot game engine.
 ## Updates:
 ### 7/17/2022
 - New feature: Post Import Script (thanks to univeous)
+- Level metadata is now imported when "Import Metadata" option is enabled (thanks to univeous)
 - Fixed entities not saving CollisionShape2D's
 ### 7/4/2022
 - Updated to Godot version 3.4.4
