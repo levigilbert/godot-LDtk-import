@@ -60,7 +60,7 @@ func get_import_options(preset):
 		{
 			"name": "Import_Metadata",
 			"default_value": true,
-			"hint_string": "If true, will import entity fields as metadata."
+			"hint_string": "If true, will import entity and level fields as metadata."
 		},
 		{
 			"name": "Import_YSort_Entities_Layer",
@@ -91,6 +91,17 @@ func import(source_file, save_path, options, platform_v, r_gen_files):
 		var new_level = Node2D.new()
 		new_level.name = level.identifier
 		new_level.position = Vector2(level.worldX, level.worldY)
+
+#import level metadata
+		if options.Import_Metadata:
+			for property in level:
+				if not property in ["layerInstances"]:
+					if property == "fieldInstances":
+						for field in level.fieldInstances:
+							new_level.set_meta(field.__identifier, field.__value)
+					else:
+						new_level.set_meta(property, level[property])
+
 		map.add_child(new_level)
 		new_level.set_owner(map)
 
