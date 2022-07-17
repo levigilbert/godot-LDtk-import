@@ -90,7 +90,6 @@ func new_entity(entity_data, options):
 		'Area2D', 'KinematicBody2D', 'RigidBody2D', 'StaticBody2D':
 			var col_shape = new_rectangle_collision_shape(get_entity_size(entity_data.__identifier))
 			new_entity.add_child(col_shape)
-			col_shape.set_owner(new_entity)
 
 	new_entity.name = entity_data.__identifier
 	new_entity.position = Vector2(entity_data.px[0], entity_data.px[1])
@@ -119,7 +118,6 @@ func new_tilemap(tilemap_data):
 	var tilemap = TileMap.new()
 	var tileset_data = get_layer_tileset_data(tilemap_data.layerDefUid)
 	if not tileset_data:
-		print("no tileset data")
 		return
 
 	tilemap.tile_set = new_tileset(tileset_data)

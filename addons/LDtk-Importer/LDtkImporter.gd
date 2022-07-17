@@ -100,12 +100,16 @@ func import(source_file, save_path, options, platform_v, r_gen_files):
 			new_level.add_child(layerInstance)
 			layerInstance.set_owner(map)
 
-			for child in layerInstance.get_children():
-				child.set_owner(map)
+			var children = layerInstance.get_children()
 
-				if not options.Import_Custom_Entities:
-					for grandchild in child.get_children():
-						grandchild.set_owner(map)
+			while children:
+				for child in children:
+					child.set_owner(map)
+					if child.get_children():
+						var grandchildren = child.get_children()
+						children += grandchildren
+
+					children.erase(child)
 
 #Post imports script
 	if not options.Post_Import_Script.empty():
