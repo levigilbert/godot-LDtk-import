@@ -69,14 +69,14 @@ You can set up how your entities are imported:
 
 Current node options are:
 1. If not using Custom Entities:
-- Position2D
-- Area2D
-- KinematicBody2D
-- RigidBody2D
-- StaticBody2D
+    - Position2D
+    - Area2D
+    - KinematicBody2D
+    - RigidBody2D
+    - StaticBody2D
+    
 2. If using Custom Entities:
-- Position2D, Area2D, KinematicBody2D, RigidBody2D, and StaticBody2D will be imported as Node2D.
-- Path to Resource (eg: 'res://Player.tscn'), this will use 'load().instance()' to create your existing node.
+    - Set the Default Value to the resource path (eg: 'res://Player.tscn').
 
 ## Notes:
 - The example is using the tileset that comes with LDtk: `Cavernas_by_Adam_Saltsman.png`
