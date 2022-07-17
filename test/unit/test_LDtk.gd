@@ -124,8 +124,6 @@ class TestLayerTypes:
 		var tilemap_data = LDtk.map_data.levels[0].layerInstances[2]
 		var tilemap = autoqfree(LDtk.new_tilemap(tilemap_data))
 		assert_true(tilemap == null)
-#		assert_eq(tilemap.name, 'IntGrid')
-#		assert_eq(tilemap.cell_size, Vector2(8,8))
 
 
 	func test_intgrid_layer_with_tileset():
@@ -175,10 +173,20 @@ class TestCollision:
 		assert_eq(collisionMap.get_child(0).position, Vector2(4, 4))
 
 
-#class TestEntities:
-#	extends "res://addons/gut/test.gd"
-#
-#	var LDtk = load("res://addons/LDtk-Importer/LDtk.gd").new()
-#
-#	func test_entity():
-#		pass
+class TestMetadata:
+	extends "res://addons/gut/test.gd"
+
+	var LDtk = load("res://addons/LDtk-Importer/LDtk.gd").new()
+
+	func test_entity_metadata():
+		LDtk.map_data = 'res://testmap.ldtk'
+		var entity_data = LDtk.map_data.levels[0].layerInstances[4]
+		var options = {
+			"Import_Metadata" : true
+		}
+		var entities = LDtk.get_layer_entities(entity_data, options)
+		var player = entities[3]
+		assert_eq(player.get_meta("Health"), 10.0)
+
+		for entity in entities:
+			entity.free()
