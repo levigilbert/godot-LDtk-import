@@ -65,6 +65,12 @@ func get_import_options(preset):
 		{
 			"name": "Import_YSort_Entities_Layer",
 			"default_value": false
+		},
+		{
+			"name": "Post_Import_Script",
+			"default_value": "",
+			"property_hint": PROPERTY_HINT_FILE,
+			"hint_string": "*.gd;GDScript"
 		}
 	]
 
@@ -100,6 +106,24 @@ func import(source_file, save_path, options, platform_v, r_gen_files):
 				if not options.Import_Custom_Entities:
 					for grandchild in child.get_children():
 						grandchild.set_owner(map)
+
+#Post imports script
+	if not options.Post_Import_Script.empty():
+		var script = load(options.Post_Import_Script)
+		if not script or not script is GDScript:
+			printerr("Post import script is not a GDScript.")
+			return ERR_INVALID_PARAMETER
+
+		script = script.new()
+		if not script.has_method("post_import"):
+			printerr("Post import script does not have a 'post_import' method.")
+			return ERR_INVALID_PARAMETER
+
+		map = script.post_import(map)
+
+		if not map or not map is Node2D:
+			printerr("Invalid scene returned from post import script.")
+			return ERR_INVALID_DATA
 
 	var packed_scene = PackedScene.new()
 	packed_scene.pack(map)
