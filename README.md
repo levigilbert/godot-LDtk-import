@@ -71,6 +71,8 @@ You can set up how your entities are imported:
 4. Set the Default Value to the type of Node
 5. Any fields added to the entity on LDtk can set properties on the object or be added as metadata if the option is set when importing (retrieve using the function 'get_meta()' on the object after importing).
 
+If your entity does not have a `NodeType` field, it will be imported as a Node2D node and all fields will be imported as metadata. You can set up post-import scripts to handle the imported entities yourself.
+
 Current node options are:
 1. If not using Custom Entities:
     - Position2D

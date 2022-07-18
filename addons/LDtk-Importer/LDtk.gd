@@ -43,39 +43,39 @@ func new_entity(entity_data, options):
 	var metadata = []
 
 	var is_custom_entity = false
-	if entity_data.fieldInstances:
-		for field in entity_data.fieldInstances:
-			if field.__identifier == 'NodeType' and field.__type == 'String':
-				match field.__value:
-					'Position2D':
-						new_entity = Position2D.new()
-					'Area2D':
-						new_entity = Area2D.new()
-					'KinematicBody2D':
-						new_entity = KinematicBody2D.new()
-					'RigidBody2D':
-						new_entity = RigidBody2D.new()
-					'StaticBody2D':
-						new_entity = StaticBody2D.new()
-					_:
-						if not options.Import_Custom_Entities:
-							return
+	for prpoerty in entity_data:
+		if prpoerty == "fieldInstances":
+			for field in entity_data.fieldInstances:
+				if field.__identifier == 'NodeType' and field.__type == 'String':
+					match field.__value:
+						'Position2D':
+							new_entity = Position2D.new()
+						'Area2D':
+							new_entity = Area2D.new()
+						'KinematicBody2D':
+							new_entity = KinematicBody2D.new()
+						'RigidBody2D':
+							new_entity = RigidBody2D.new()
+						'StaticBody2D':
+							new_entity = StaticBody2D.new()
+						_:
+							if not options.Import_Custom_Entities:
+								return
 
-						var resource = load(field.__value)
-						if not resource:
-							printerr("Could not load resource: ", field.__value)
-							return
-						new_entity = resource.instance()
-						new_entity.position = Vector2(entity_data.px[0], entity_data.px[1])
-						is_custom_entity = true
-			elif options.Import_Metadata:
-				metadata.append({'name': field.__identifier, 'value': field.__value})
-	else:
-		printerr("Could not load entity data: ", entity_data)
-		return
+							var resource = load(field.__value)
+							if not resource:
+								printerr("Could not load resource: ", field.__value)
+								return
+							new_entity = resource.instance()
+							new_entity.position = Vector2(entity_data.px[0], entity_data.px[1])
+							is_custom_entity = true
+				elif options.Import_Metadata:
+					metadata.append({'name': field.__identifier, 'value': field.__value})
+		elif options.Import_Metadata:
+				metadata.append({'name': prpoerty, 'value': entity_data[prpoerty]})
 
 	if not new_entity:
-		return
+		new_entity = Node2D.new()
 
 	for data in metadata:
 		if data['name'] in new_entity:
