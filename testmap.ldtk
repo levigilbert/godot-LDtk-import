@@ -10,7 +10,7 @@
 	},
 	"jsonVersion": "1.1.3",
 	"appBuildId": 458364,
-	"nextUid": 38,
+	"nextUid": 39,
 	"identifierStyle": "Capitalize",
 	"worldLayout": "LinearHorizontal",
 	"worldGridWidth": 128,
@@ -564,6 +564,34 @@
 					"tilesetUid": null
 				}
 			]
+		},
+		{
+			"identifier": "Entity",
+			"uid": 38,
+			"tags": [],
+			"width": 16,
+			"height": 16,
+			"resizableX": false,
+			"resizableY": false,
+			"keepAspectRatio": false,
+			"tileOpacity": 1,
+			"fillOpacity": 1,
+			"lineOpacity": 1,
+			"hollow": false,
+			"color": "#FFB700",
+			"renderMode": "Rectangle",
+			"showName": true,
+			"tilesetId": null,
+			"tileId": null,
+			"tileRenderMode": "FitInside",
+			"tileRect": null,
+			"nineSliceBorders": [],
+			"maxCount": 0,
+			"limitScope": "PerLevel",
+			"limitBehavior": "MoveLastOne",
+			"pivotX": 0,
+			"pivotY": 0,
+			"fieldDefs": []
 		}
 	], "tilesets": [
 		{
@@ -1191,6 +1219,48 @@
 							"defUid": 24,
 							"px": [8,192],
 							"fieldInstances": [{ "__identifier": "NodeType", "__value": "Area2D", "__type": "String", "__tile": null, "defUid": 25, "realEditorValues": [] }]
+						},
+						{
+							"__identifier": "Entity",
+							"__grid": [1,29],
+							"__pivot": [0,0],
+							"__tags": [],
+							"__tile": null,
+							"__smartColor": "#FFB700",
+							"iid": "d685e1a0-02f0-11ed-9150-3fe89834da47",
+							"width": 16,
+							"height": 16,
+							"defUid": 38,
+							"px": [8,232],
+							"fieldInstances": []
+						},
+						{
+							"__identifier": "Entity",
+							"__grid": [4,29],
+							"__pivot": [0,0],
+							"__tags": [],
+							"__tile": null,
+							"__smartColor": "#FFB700",
+							"iid": "d7665690-02f0-11ed-9150-d7fb7bb3d54b",
+							"width": 16,
+							"height": 16,
+							"defUid": 38,
+							"px": [32,232],
+							"fieldInstances": []
+						},
+						{
+							"__identifier": "Entity",
+							"__grid": [7,29],
+							"__pivot": [0,0],
+							"__tags": [],
+							"__tile": null,
+							"__smartColor": "#FFB700",
+							"iid": "d86ace40-02f0-11ed-9150-1d717e67712f",
+							"width": 16,
+							"height": 16,
+							"defUid": 38,
+							"px": [56,232],
+							"fieldInstances": []
 						}
 					]
 				},
