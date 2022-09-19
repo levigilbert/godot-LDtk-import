@@ -169,7 +169,7 @@ func new_tileset(tileset_data):
 
 			for data in tileset_data.customData:
 				if tileId == data.tileId:
-					var jsonObj = parse_json(data.data)
+					var jsonObj = data.data
 
 					if "light_occluder_shape" in data.data:
 						tileset.tile_set_light_occluder(tileId, get_tile_light_occluder_custom_shape(tileId, jsonObj.light_occluder_shape))
