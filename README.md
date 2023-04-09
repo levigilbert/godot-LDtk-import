@@ -1,3 +1,5 @@
+Please note, I am no longer actively maintaining this plugin as of 04/09/2023. There are several forks of this project that are more up to date, as well as other similar plugins that are available on GitHub.
+
 # godot-LDtk-import
 - Godot version: 3.4.4
 - LDtk version: 1.1.3
