@@ -1,4 +1,6 @@
-Please note, I am no longer actively maintaining this plugin as of 04/09/2023. There are several forks of this project that are more up to date, as well as other similar plugins that are available on GitHub.
+Please note, I am no longer actively maintaining this plugin as of 04/09/2023. There are several forks of this project that are more up to date, as well as other similar plugins that are available on GitHub. I'll be leaving the project up for those that want to view the code and/or build from it, but do note that it most likely will be outdated.
+
+Levi
 
 # godot-LDtk-import
 - Godot version: 3.4.4
